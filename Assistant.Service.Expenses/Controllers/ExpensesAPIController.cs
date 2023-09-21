@@ -5,6 +5,7 @@ using Assistant.Service.ExpensesAPI.Models.Dto;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace Assistant.Service.ExpensesAPI.Controllers
@@ -66,9 +67,8 @@ namespace Assistant.Service.ExpensesAPI.Controllers
         {
             try
             {
-                Expenses obj = _db.expenses.FirstOrDefault(u => u.CategoryId == category_id);
-                ExpensesDto expensesDto = _mapper.Map<ExpensesDto>(obj);
-                _responseDto.Result = expensesDto;
+                IEnumerable<Expenses> obj = _db.expenses.Where(u => u.CategoryId == category_id).ToList();
+                _responseDto.Result = _mapper.Map<IEnumerable<ExpensesDto>>(obj);
             }
             catch (Exception ex)
             {
@@ -182,20 +182,31 @@ namespace Assistant.Service.ExpensesAPI.Controllers
         {
             var userid = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            try
-            {
-                Category obj = _mapper.Map<Category>(categoryDto); // Error Mapper
-                obj.UserId = userid;
-                _db.categories.Add(obj);
-                _db.SaveChanges();
+            var ValidNameCategory = _db.categories.FirstOrDefault(u => u.Name == categoryDto.Name && u.UserId == userid);
 
-                _responseDto.Result = _mapper.Map<Category>(obj);
-            }
-            catch (Exception ex)
+            if (ValidNameCategory != null)
             {
                 _responseDto.IsSuccess = false;
-                _responseDto.Message = ex.Message;
+                _responseDto.Message = "This name category is taken";
             }
+            else
+            {
+                try
+                {
+                    Category obj = _mapper.Map<Category>(categoryDto); // Error Mapper
+                    obj.UserId = userid;
+                    _db.categories.Add(obj);
+                    _db.SaveChanges();
+
+                    _responseDto.Result = _mapper.Map<Category>(obj);
+                }
+                catch (Exception ex)
+                {
+                    _responseDto.IsSuccess = false;
+                    _responseDto.Message = ex.Message;
+                }
+            }
+
             return _responseDto;
         }
 
