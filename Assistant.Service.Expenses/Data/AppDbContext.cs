@@ -1,5 +1,4 @@
 ﻿using Assistans.Service.ExpensesAPI.Models;
-using Assistans.Service.ExpensesAPI.Models;
 using Assistant.Service.ExpensesAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -16,11 +15,6 @@ namespace Assistant.Service.ExpensesAPI.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            builder.Entity<Expenses>().HasData(new Expenses
-            {
-
-            });
         }
     }
 }

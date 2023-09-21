@@ -14,11 +14,6 @@ namespace Assistant.Service.AuthAPI.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            builder.Entity<Income>().HasData(new Income
-            {
-
-            });
         }
     }
 }

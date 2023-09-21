@@ -11,21 +11,22 @@ namespace Assistant.Service.ExpensesAPI.Controllers
 {
     [Route("api/expenses")]
     [Authorize]
+    [ApiController]
     public class ExpensesAPIController : ControllerBase
     {
         private readonly AppDbContext _db;
-        private readonly ResponseDto _responseDto;
-        private readonly IMapper _mapper;
+        private  ResponseDto _responseDto;
+        private  IMapper _mapper;
 
-        public ExpensesAPIController(AppDbContext db, ResponseDto response, IMapper mapper)
+        public ExpensesAPIController(AppDbContext db, IMapper mapper)
         {
             _db = db;
-            _responseDto = response;
+            _responseDto = new ResponseDto();
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ResponseDto> GetExpenses()
+        public ResponseDto GetExpenses()
         {
             var userid = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             try
@@ -59,6 +60,24 @@ namespace Assistant.Service.ExpensesAPI.Controllers
             return _responseDto;
         }
 
+        [Route("category_id/{category_id:int}")]
+        [HttpGet]
+        public ResponseDto GetExpensesCategory(int category_id)
+        {
+            try
+            {
+                Expenses obj = _db.expenses.FirstOrDefault(u => u.CategoryId == category_id);
+                ExpensesDto expensesDto = _mapper.Map<ExpensesDto>(obj);
+                _responseDto.Result = expensesDto;
+            }
+            catch (Exception ex)
+            {
+                _responseDto.IsSuccess = false;
+                _responseDto.Message = ex.Message;
+            }
+            return _responseDto;
+        }
+
 
         [HttpPost]
         public ResponseDto PostExpenses([FromBody] ExpensesDto expensesDto)
@@ -67,9 +86,9 @@ namespace Assistant.Service.ExpensesAPI.Controllers
 
             try
             {
+                expensesDto.UserId = userid;
                 Expenses obj = _mapper.Map<Expenses>(expensesDto);
-                obj.UserId = userid;
-                _db.Add(obj);
+                _db.expenses.Add(obj);
                 _db.SaveChanges();
 
                 _responseDto.Result = _mapper.Map<ExpensesDto>(obj);
@@ -89,7 +108,7 @@ namespace Assistant.Service.ExpensesAPI.Controllers
             try
             {
                 Expenses obj = _db.expenses.First(u => u.ExpensesId == id);
-                _db.Remove(obj);
+                _db.expenses.Remove(obj);
                 _db.SaveChanges();
             }
             catch (Exception ex)
@@ -108,7 +127,7 @@ namespace Assistant.Service.ExpensesAPI.Controllers
             {
                 Expenses obj = _mapper.Map<Expenses>(expensesDto);
                 obj.UserId = userid;
-                _db.Add(obj);
+                _db.expenses.Update(obj);
                 _db.SaveChanges();
             }
             catch (Exception ex)
@@ -128,7 +147,7 @@ namespace Assistant.Service.ExpensesAPI.Controllers
             try
             {
                 IEnumerable<Category> categories = _db.categories.Where(u => u.UserId == userid).ToList();
-                _responseDto.Result = _mapper.Map<IEnumerable<CategoryDto>>(categories);
+                _responseDto.Result = _mapper.Map<IEnumerable<Category>>(categories);
             }
             catch (Exception ex)
             {
@@ -144,9 +163,9 @@ namespace Assistant.Service.ExpensesAPI.Controllers
         {
             try
             {
-                Expenses obj = _db.expenses.FirstOrDefault(u => u.ExpensesId == id);
-                ExpensesDto expensesDto = _mapper.Map<ExpensesDto>(obj);
-                _responseDto.Result = expensesDto;
+                Category obj = _db.categories.FirstOrDefault(u => u.Id == id);
+                Category categoryDto = _mapper.Map<Category>(obj);
+                _responseDto.Result = categoryDto;
             }
             catch (Exception ex)
             {
@@ -159,18 +178,18 @@ namespace Assistant.Service.ExpensesAPI.Controllers
 
         [HttpPost]
         [Route("categories")]
-        public ResponseDto PostCategories([FromBody] ExpensesDto expensesDto)
+        public ResponseDto PostCategories([FromBody] Category categoryDto)
         {
             var userid = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             try
             {
-                Expenses obj = _mapper.Map<Expenses>(expensesDto);
+                Category obj = _mapper.Map<Category>(categoryDto); // Error Mapper
                 obj.UserId = userid;
-                _db.Add(obj);
+                _db.categories.Add(obj);
                 _db.SaveChanges();
 
-                _responseDto.Result = _mapper.Map<ExpensesDto>(obj);
+                _responseDto.Result = _mapper.Map<Category>(obj);
             }
             catch (Exception ex)
             {
@@ -186,8 +205,8 @@ namespace Assistant.Service.ExpensesAPI.Controllers
         {
             try
             {
-                Expenses obj = _db.expenses.First(u => u.ExpensesId == id);
-                _db.Remove(obj);
+                Category obj = _db.categories.First(u => u.Id == id);
+                _db.categories.Remove(obj);
                 _db.SaveChanges();
             }
             catch (Exception ex)
@@ -201,14 +220,14 @@ namespace Assistant.Service.ExpensesAPI.Controllers
 
         [Route("categories")]
         [HttpPut]
-        public ResponseDto PutCategories([FromBody] ExpensesDto expensesDto)
+        public ResponseDto PutCategories([FromBody] Category categoryDto)
         {
             var userid = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             try
             {
-                Expenses obj = _mapper.Map<Expenses>(expensesDto);
+                Category obj = _mapper.Map<Category>(categoryDto);
                 obj.UserId = userid;
-                _db.Add(obj);
+                _db.categories.Add(obj);
                 _db.SaveChanges();
             }
             catch (Exception ex)

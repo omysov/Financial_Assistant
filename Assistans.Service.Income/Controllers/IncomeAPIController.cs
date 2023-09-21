@@ -19,8 +19,8 @@ namespace Assistans.Service.IncomeAPI.Controllers
     {
 
         private readonly AppDbContext _db;
-        private readonly ResponseDto _responseDto;
-        private readonly IMapper _mapper;
+        private  ResponseDto _responseDto;
+        private  IMapper _mapper;
 
         public IncomeAPIController(AppDbContext db, ResponseDto responseDto, IMapper mapper)
         {
