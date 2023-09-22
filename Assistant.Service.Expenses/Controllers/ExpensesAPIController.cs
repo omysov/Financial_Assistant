@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Linq;
+using System.ComponentModel;
 
 namespace Assistant.Service.ExpensesAPI.Controllers
 {
@@ -240,6 +242,45 @@ namespace Assistant.Service.ExpensesAPI.Controllers
                 obj.UserId = userid;
                 _db.categories.Add(obj);
                 _db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                _responseDto.IsSuccess = false;
+                _responseDto.Message = ex.Message;
+            }
+            return _responseDto;
+        }
+
+
+        [Route("category_count")]
+        [HttpGet]
+        public ResponseDto SumCategoryCount()
+        {
+            var userid = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            try
+            {
+                IEnumerable<Category> categories = _db.categories.Where(u => u.UserId == userid).ToList();
+                List<CategoryCountDto> categoryCounts = new List<CategoryCountDto>();
+
+                var i = 0;
+                foreach (var category in categories)
+                {
+                    int sum = _db.expenses.Where(row => row.CategoryId == category.Id)
+                        .Sum(row => row.Count);
+
+                    CategoryCountDto categoryCountDto = new CategoryCountDto
+                    {
+                        Id = category.Id,
+                        UserId = category.UserId,
+                        Name = category.Name,
+                        Count = sum
+                    };
+
+                    categoryCounts.Add(categoryCountDto);
+
+                }
+
+                _responseDto.Result = categoryCounts;//_mapper.Map<IEnumerable<CategoryDto>>(categories);
             }
             catch (Exception ex)
             {

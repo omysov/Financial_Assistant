@@ -26,7 +26,7 @@ async function GetData() {
                 labels: ResultFunction.map(row => row.id),
                 datasets: [
                     {
-                        label: 'Acquisitions by year',
+                        label: 'Count category',
                         data: ResultFunction.map(row => row.id)
                     }
                 ]
@@ -58,7 +58,29 @@ async function SortData(dataResutl) {
         ArrayCategory.push(json.result);
         i++;
     }
-    console.log(dataResutl[0]);
     console.log(ArrayCategory);
+    DataCount(ArrayCategory);
     return ArrayCategory;
+}
+
+async function DataCount(data) {
+
+    console.log(data);
+    let i, k = 0;
+
+    let CategoryCount = [];
+
+    while (i < data.length) {
+        while (k < data[i].length) {
+
+            let SubCateCount = data[i][k].count + SubCateCount;
+            k++;
+        }
+        CategoryCount.push(SubCateCount);
+        i++;
+    }
+
+    console.log(data[0][0].count)
+    console.log(data[1].length);
+    console.log(CategoryCount);
 }
