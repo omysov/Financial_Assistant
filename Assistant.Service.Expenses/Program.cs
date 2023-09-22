@@ -73,8 +73,6 @@ var app = builder.Build();
 //CROS policy
 app.UseCors(MyAllowSpecificOrigins);
 
-//Develope service
-app.UseDeveloperExceptionPage();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

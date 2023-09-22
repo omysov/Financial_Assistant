@@ -26,7 +26,7 @@ async function GetData() {
                 labels: ResultFunction.map(row => row.id),
                 datasets: [
                     {
-                        label: 'Count category',
+                        label: 'Acquisitions by year',
                         data: ResultFunction.map(row => row.id)
                     }
                 ]

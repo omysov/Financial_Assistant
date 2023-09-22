@@ -262,7 +262,6 @@ namespace Assistant.Service.ExpensesAPI.Controllers
                 IEnumerable<Category> categories = _db.categories.Where(u => u.UserId == userid).ToList();
                 List<CategoryCountDto> categoryCounts = new List<CategoryCountDto>();
 
-                var i = 0;
                 foreach (var category in categories)
                 {
                     int sum = _db.expenses.Where(row => row.CategoryId == category.Id)
