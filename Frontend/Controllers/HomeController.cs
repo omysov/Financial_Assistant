@@ -1,12 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Assistans.Service.Frontend.Models.Dto;
+using Frontend.Models;
+using Frontend.Services.IService;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Frontend.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly ICategoryService _categoryService;
+        
+        public HomeController(ICategoryService categoryService)
         {
-            return View();
+            _categoryService = categoryService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            /*
+            ResponseDto? response = await _categoryService.GetAllCategoryUserAsync();
+            List<CategoryDto> listCategories = JsonConvert.DeserializeObject<List<CategoryDto>>(Convert.ToString(response.Result));
+            */
+			return View();
         }
     }
 }

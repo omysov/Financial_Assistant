@@ -22,6 +22,8 @@ builder.Services.AddSession();
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IExpensesService, ExpensesService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(option =>
@@ -33,6 +35,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 
 SD.AuthAPIBase = builder.Configuration["ServiceUrls:AuthAPI"];
+SD.ExpensesAPIBase = builder.Configuration["ServiceUrls:ExpensesAPI"];
+SD.IncomeAPIBase = builder.Configuration["ServiceUrls:IncomeAPI"];
 var app = builder.Build();
 
 

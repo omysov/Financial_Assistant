@@ -23,8 +23,8 @@ async function PostForm() {
         Password: Password
     };
 
-    console.log(NameTextBox);
-    console.log(Password);
+    //console.log(NameTextBox);
+    //console.log(Password);
 
     const response = await fetch('https://localhost:7100/api/auth/login', {
         method: 'POST',
@@ -37,7 +37,7 @@ async function PostForm() {
 
     const json = await response.json();
 
-    console.log("This json PostForm "+ json.result.token)
+    //console.log("This json PostForm "+ json.result.token)
 
     //window.sessionStorage.clear();
     window.sessionStorage.setItem('jwt', json.result.token);
