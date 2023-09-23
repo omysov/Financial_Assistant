@@ -16,6 +16,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient<IAuthService, AuthService>();
 
+//session
+builder.Services.AddSession();
 
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();
 builder.Services.AddScoped<IBaseService, BaseService>();
@@ -54,5 +56,8 @@ app.UseRouting();
 app.UseAuthorization();
 app.UseAuthentication();
 app.MapRazorPages();
+
+// Add session
+app.UseSession();
 
 app.Run();

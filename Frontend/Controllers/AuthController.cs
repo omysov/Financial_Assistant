@@ -35,7 +35,7 @@ namespace Frontend.Controllers
                     JsonConvert.DeserializeObject<LoginResponseDto>(Convert.ToString(responseDto.Result));
 
                 _tokenProvider.SetToken(loginResponseDto.Token);
-                return RedirectToAction("Index", "Home");
+                return View(obj);// RedirectToAction("Index", "Home");
             }
             else
             {

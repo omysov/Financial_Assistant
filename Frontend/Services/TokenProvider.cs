@@ -1,5 +1,6 @@
 ﻿using Frontend.Services.IService;
 using Frontend.Utils;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Frontend.Services
 {
@@ -27,6 +28,7 @@ namespace Frontend.Services
         public void SetToken(string token)
         {
             _contextAccessor.HttpContext?.Response.Cookies.Append(SD.TokenCookie, token);
+      
         }
     }
 }

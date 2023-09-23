@@ -1,10 +1,18 @@
 ﻿const form = document.getElementById("login-form");
 
+/*
 form.addEventListener('submit', function (e) {
     e.preventDefault();
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    //sleep(2000).then(() => PostForm());
 
     PostForm();
 })
+*/
+PostForm();
 
 async function PostForm() {
     const NameTextBox = document.getElementById('UserName').value;
@@ -33,5 +41,5 @@ async function PostForm() {
 
     //window.sessionStorage.clear();
     window.sessionStorage.setItem('jwt', json.result.token);
-    //window.location.href = 'https://localhost:7200/Home';
+    window.location.href = 'https://localhost:7200/Home';
 }
