@@ -2,11 +2,13 @@
 using Frontend.Models;
 using Frontend.Models.Dto;
 using Frontend.Services.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace Frontend.Controllers
 {
+    //[Authorize]
     public class ExpensesController : Controller
     {
         private readonly IExpensesService _expensesService;
@@ -52,20 +54,135 @@ namespace Frontend.Controllers
         }
 
 
-        public async Task<ActionResult> AddExpenses()
+        public async Task<ActionResult> AddExpenses(int category_id)
         {
-            ResponseDto response = await _categoryService.GetAllCategoryUserAsync();
-            List<CategoryDto> listCategories = JsonConvert.DeserializeObject<List<CategoryDto>>(Convert.ToString(response.Result));
+            ResponseDto? response = await _categoryService.GetCategoryByIdAsync(category_id);
+            //List<CategoryDto> listCategories = JsonConvert.DeserializeObject<List<CategoryDto>>(Convert.ToString(response.Result));
 
-            ViewBag.Message = listCategories;
-            return View();
+            if (response != null && response.IsSuccess)
+            {
+                CategoryDto category = JsonConvert.DeserializeObject<CategoryDto>(Convert.ToString(response.Result));
+                ExpensesItemListDto expensesItemList = new ExpensesItemListDto()
+                {
+                    UserId = category.UserId,
+                    CategoryName = category.Name,
+                    CategoryId = category.Id,
+                };
+                return View(expensesItemList);
+            }
+
+            return NotFound();
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddExpenses([FromBody] ExpensesDto expensesDto)
+        public async Task<ActionResult> AddExpenses([FromForm]ExpensesItemListDto expensesItemList)
         {
 
-            return View();
+                ExpensesDto model = new ExpensesDto()
+                {
+                    CategoryId = expensesItemList.CategoryId,
+                    Date = expensesItemList.Date,
+                    Count = expensesItemList.Count,
+                    Description = expensesItemList.Description
+                };
+
+                ResponseDto? response = await _expensesService.CreateExpensesAsync(model);
+
+                if (response != null && response.IsSuccess)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+            return View(expensesItemList);
         }
-    }
+
+        public async Task<ActionResult> DeleteExpenses(int expenses_id)
+        {
+            ResponseDto? response = await _expensesService.GetExpensesByIdAsync(expenses_id);
+
+            if(response != null && response.IsSuccess)
+            {
+                ExpensesDto? model = JsonConvert.DeserializeObject<ExpensesDto>(Convert.ToString(response.Result));
+
+                ResponseDto? category = await _categoryService.GetCategoryByIdAsync(model.CategoryId);
+				CategoryDto? category_model = JsonConvert.DeserializeObject<CategoryDto>(Convert.ToString(category.Result));
+
+				ExpensesItemListDto expensesItemList = new ExpensesItemListDto()
+				{
+					UserId = category_model.UserId,
+					CategoryName = category_model.Name,
+					CategoryId = category_model.Id,
+                    Count = model.Count,
+                    Date = model.Date,
+                    ExpensesId = model.ExpensesId,
+                    Description = model.Description
+				};
+
+				return View(expensesItemList);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+		public async Task<ActionResult> DeleteExpenses([FromForm] ExpensesItemListDto expensesItemList)
+		{
+            ResponseDto? response = await _expensesService.DeleteExpensesAsync(expensesItemList.ExpensesId);
+
+            if(response != null && response.IsSuccess)
+            {
+                return RedirectToAction(nameof(AllExpenses));
+            }
+            return View(expensesItemList);
+		}
+
+		public async Task<ActionResult> UpdateExpenses(int expenses_id)
+		{
+			ResponseDto? response = await _expensesService.GetExpensesByIdAsync(expenses_id);
+
+			if (response != null && response.IsSuccess)
+			{
+				ExpensesDto? model = JsonConvert.DeserializeObject<ExpensesDto>(Convert.ToString(response.Result));
+
+				ResponseDto? category = await _categoryService.GetCategoryByIdAsync(model.CategoryId);
+				CategoryDto? category_model = JsonConvert.DeserializeObject<CategoryDto>(Convert.ToString(category.Result));
+
+				ExpensesItemListDto expensesItemList = new ExpensesItemListDto()
+				{
+					UserId = category_model.UserId,
+					CategoryName = category_model.Name,
+					CategoryId = category_model.Id,
+					Count = model.Count,
+					Date = model.Date,
+					ExpensesId = model.ExpensesId,
+					Description = model.Description
+				};
+
+				return View(expensesItemList);
+			}
+			return NotFound();
+		}
+
+		[HttpPost]
+		public async Task<ActionResult> UpdateExpenses([FromForm] ExpensesItemListDto expensesItemList)
+		{
+
+			ExpensesDto model = new ExpensesDto()
+			{
+                ExpensesId = expensesItemList.ExpensesId,
+				CategoryId = expensesItemList.CategoryId,
+				Date = expensesItemList.Date,
+				Count = expensesItemList.Count,
+				Description = expensesItemList.Description
+			};
+
+			ResponseDto? response = await _expensesService.UpdateExpensesAsync(model);
+
+			if (response != null && response.IsSuccess)
+			{
+				return RedirectToAction("Index", "Home");
+			}
+
+			return View(expensesItemList);
+		}
+	}
 }

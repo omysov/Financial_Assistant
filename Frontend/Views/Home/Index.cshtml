@@ -5,23 +5,29 @@
     <script src="~/js/GetCategoryCount.js" type="text/javascript"></script>
 </head>
     <body>
-        <div class="container">
-            <div class="body">
-                <div style="width: 500px"><canvas id="acquisitions"></canvas></div>
-            </div>
-            <list class="list-group">
-            @{
-                foreach(var item in Model)
-                {
-                    <li class="list-group-item">@item.Name</li>
-                }
-            }
-            </list>
+                <!--<div style="width:500px" class="row"><canvas id="acquisitions"></canvas></div>-->
             <br />
-            <a class="btn btn-primary" href="#" role="button">Add Category</a>
-            <a class="btn btn-success" href="#" role="button">Add Expenses</a>
+            <div class="container text-center">
+              <div class="row align-items-start">
+                <div class="col-sm-9 p-3">
+                   <div style="width:600px" class="row"><canvas id="acquisitions"></canvas></div>
+                </div>
+                <div class="col">
+                              <list class="list-group">
+                            @{
+                                foreach (var item in Model)
+                                {
+                                           <a asp-controller="Expenses" asp-action="AddExpenses" asp-route-category_id="@item.Id" class="list-group-item list-group-item-action">@item.Name</a>
+                                }
+                            }
+                        </list> 
+                        <br />
+                    <a class="btn btn-primary" asp-controller="Category" asp-action="AddCategory" role="button">Add Category</a>
+                    <a class="btn btn-primary" asp-controller="Category" asp-action="AllCategory" role="button">Update and Delete Category</a>
+                </div>
+              </div>
+            </div>
 
-        </div>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <!--<script src="js/acquisitions.js"></script>-->

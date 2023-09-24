@@ -1,8 +1,9 @@
 ﻿@model ExpensesItemListDto
 
-<form asp-controller="Expenses" asp-action="AddExpenses" method="post">
+<form asp-controller="Expenses" asp-action="UpdateExpenses" method="post">
     <h2>@Model.CategoryName</h2>
     <input asp-for="CategoryId" hidden/>
+    <input asp-for="ExpensesId" hidden/>
     <div class="mb-3">
         <label for="formGroupExampleInput" class="form-label">Date</label>
         <input asp-for="Date" type="date" class="form-control" id="formGroupExampleInput" placeholder="21.10.2001">
@@ -20,5 +21,5 @@
     </div>
 
     <a asp-controller="Home" asp-action="" role="button" class="btn btn-primary btn-lg">Back to Home</a> <!--Выделение + Tab и Tab + Shift-->
-    <input class="btn btn-primary btn-lg" type="submit" value="Create">
+    <input class="btn btn-primary btn-lg" type="submit" value="Update">
 </form>

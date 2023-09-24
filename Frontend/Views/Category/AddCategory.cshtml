@@ -1,0 +1,13 @@
+﻿
+@model CategoryDto
+
+<h2>Add Category</h2>
+<form asp-controller="Category" asp-action="AddCategory" method="post">
+    <div class="mb-3">
+        <label for="formGroupExampleInput" class="form-label">Name Category</label>
+        <input asp-for="Name" type="text" class="form-control" id="formGroupExampleInput" placeholder="FastFood">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <a asp-controller="Home" asp-action="" role="button" class="btn btn-primary btn-lg">Back to Home</a> <!--Выделение + Tab и Tab + Shift-->
+    <input class="btn btn-primary btn-lg" type="submit" value="Create">
+</form>

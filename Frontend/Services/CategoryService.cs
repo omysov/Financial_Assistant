@@ -29,7 +29,7 @@ namespace Frontend.Services
             return await _baseService.SendAsync(new RequestDto()
             {
                 ApiType = SD.ApiType.DELETE,
-                Url = SD.ExpensesAPIBase + "/api/expenses/category" + id
+                Url = SD.ExpensesAPIBase + "/api/expenses/categories/" + id
             });
         }
 
@@ -47,7 +47,7 @@ namespace Frontend.Services
             return await _baseService.SendAsync(new RequestDto()
             {
                 ApiType = SD.ApiType.GET,
-                Url = SD.ExpensesAPIBase + "/api/expenses/categories" + id
+                Url = SD.ExpensesAPIBase + "/api/expenses/categories/" + id
             });
         }
 

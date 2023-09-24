@@ -1,0 +1,30 @@
+﻿@model IEnumerable<CategoryDto>
+
+<div class="container">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Name Category</th>
+				<th scope="col"></th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			@{
+				int i = 1;
+				@foreach (var item in Model)
+				{
+							<tr>
+								<td scope="row">@i</td>
+								<td>@item.Name</td>
+								<td><a class="btn btn-danger" asp-controller="Category" asp-action="DeleteCategory" asp-route-category_id="@item.Id" role="button">Delete</a></td>
+								<td><a class="btn btn-success" asp-controller="Category" asp-action="UpdateCategory" asp-route-category_id="@item.Id" role="button">Update</a></td>
+							</tr>
+					i++;
+				}
+			}
+	<tr>
+  </tbody>
+</table>
+</div>

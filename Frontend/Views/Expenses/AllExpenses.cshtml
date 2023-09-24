@@ -8,6 +8,8 @@
 				<th scope="col">Name Category</th>
 				<th scope="col">Data Expension</th>
 				<th scope="col">Count</th>
+				<th scope="col"></th>
+				<th scope="col"></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -20,6 +22,8 @@
 						<td>@item.CategoryName</td>
 						<td>@item.Date</td>
 						<td>@item.Count</td>
+						<td><a class="btn btn-danger" asp-controller="Expenses" asp-action="DeleteExpenses" asp-route-expenses_id="@item.ExpensesId" role="button">Delete</a></td>
+						<td><a class="btn btn-success" asp-controller="Expenses" asp-action="UpdateExpenses" asp-route-expenses_id="@item.ExpensesId" role="button">Update</a></td>
 					</tr>
 					i++;
 				}

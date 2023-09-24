@@ -240,7 +240,7 @@ namespace Assistant.Service.ExpensesAPI.Controllers
             {
                 Category obj = _mapper.Map<Category>(categoryDto);
                 obj.UserId = userid;
-                _db.categories.Add(obj);
+                _db.categories.Update(obj);
                 _db.SaveChanges();
             }
             catch (Exception ex)
