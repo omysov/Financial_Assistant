@@ -51,7 +51,7 @@ namespace Frontend.Controllers
                 }
                 return View(list);
             }
-            return View();
+            return View(list);
         }
 
 

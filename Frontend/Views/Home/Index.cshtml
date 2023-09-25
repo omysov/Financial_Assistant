@@ -10,24 +10,26 @@
             <br />
             <div class="container text-center">
               <div class="row align-items-start">
-                <div class="col-sm-9 p-3">
-                   <div style="width:600px" class="row"><canvas id="acquisitions"></canvas></div>
+                <div class="col">
+                  <div style="width:auto" class="row"><canvas id="acquisitions"></canvas></div>
                 </div>
                 <div class="col">
-                              <list class="list-group">
-                            @{
-                                foreach (var item in Model)
-                                {
-                                           <a asp-controller="Expenses" asp-action="AddExpenses" asp-route-category_id="@item.Id" class="list-group-item list-group-item-action">@item.Name</a>
-                                }
-                            }
-                        </list> 
-                        <br />
-                    <a class="btn btn-primary" asp-controller="Category" asp-action="AddCategory" role="button">Add Category</a>
-                    <a class="btn btn-primary" asp-controller="Category" asp-action="AllCategory" role="button">Update and Delete Category</a>
+                   <div style="width:auto" class="row"><canvas id="diagramm_expenses_income"></canvas></div>
                 </div>
+                <div class="col-2">
+                   <list class="list-group">
+                        @{
+                            foreach (var item in Model)
+                            {
+                                                       <a asp-controller="Expenses" asp-action="AddExpenses" asp-route-category_id="@item.Id" class="list-group-item list-group-item-action">@item.Name</a>
+                            }
+                        }
+                            </list> 
+                            <br />
+                        <a class="btn btn-primary" asp-controller="Category" asp-action="AddCategory" role="button">Add Category</a>
+                        <a class="btn btn-success" asp-controller="Category" asp-action="AllCategory" role="button">Update and Delete Category</a>
+                    </div>
               </div>
-               <div style="width:600px" class="row"><canvas id="diagramm_expenses_income"></canvas></div>
             </div>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
