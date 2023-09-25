@@ -6,6 +6,9 @@
 
 #Income list
 ![IncomeList](https://github.com/omysov/Financial_Assistant/assets/97920323/8f67ad5c-a8dc-4246-8b10-e48b9eebbdfb)
+#Category List
+![CategoryList](https://github.com/omysov/Financial_Assistant/assets/97920323/cf2089c7-ee26-4d59-833f-126ce113dead)
+
 ![UpateExpenses](https://github.com/omysov/Financial_Assistant/assets/97920323/0f00f048-8a84-42c8-9507-264b69cbba6f)
 ![ExpensesAPI](https://github.com/omysov/Financial_Assistant/assets/97920323/5d9cc35b-848b-40f2-9f24-eb2057c8fa48)
 ![IncomeAPI](https://github.com/omysov/Financial_Assistant/assets/97920323/5dc84720-4e19-40d8-96c2-1121dc9494a3)
