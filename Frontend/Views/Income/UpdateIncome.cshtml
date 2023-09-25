@@ -1,0 +1,23 @@
+﻿@model IncomeDto
+
+<form asp-controller="Income" asp-action="UpdateIncome" method="post">
+    <input asp-for="IncomeId" hidden/>
+    <div class="mb-3">
+        <label for="formGroupExampleInput" class="form-label">Date</label>
+        <input asp-for="Date" type="date" class="form-control" id="formGroupExampleInput" placeholder="21.10.2001">
+        <span asp-validation-for="Date" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label for="formGroupExampleInput2" class="form-label">Count</label>
+        <input asp-for="Count" type="text" class="form-control" id="formGroupExampleInput2" placeholder="100">
+        <span asp-validation-for="Count" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label for="formGroupExampleInput2" class="form-label">Description</label>
+        <input asp-for="Description" type="text" class="form-control" id="formGroupExampleInput2" placeholder="This is description">
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <a asp-controller="Home" asp-action="" role="button" class="btn btn-primary btn-lg">Back to Home</a> <!--Выделение + Tab и Tab + Shift-->
+    <input class="btn btn-primary btn-lg" type="submit" value="Update">
+</form>

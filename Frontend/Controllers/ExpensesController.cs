@@ -31,7 +31,7 @@ namespace Frontend.Controllers
 
             ResponseDto? responseExpenses = await _expensesService.GetAllExpensesByUserAsync();
             ResponseDto? responseCategory = await _categoryService.GetAllCategoryUserAsync();
-            if((responseExpenses.IsSuccess = true) & (responseCategory.IsSuccess = true))
+            if((responseExpenses.IsSuccess = true && responseExpenses.Result != null) && (responseCategory.IsSuccess = true && responseCategory.Result != null))
             {
                 IEnumerable<ExpensesDto> listExpenses = JsonConvert.DeserializeObject<IEnumerable<ExpensesDto>>(Convert.ToString(responseExpenses.Result));
                 IEnumerable<CategoryDto> listCategories = JsonConvert.DeserializeObject<IEnumerable<CategoryDto>>(Convert.ToString(responseCategory.Result));
@@ -49,8 +49,9 @@ namespace Frontend.Controllers
                         Description = expenses.Description
                     });
                 }
+                return View(list);
             }
-            return View(list);
+            return View();
         }
 
 

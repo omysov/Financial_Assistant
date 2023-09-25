@@ -14,7 +14,7 @@ namespace Assistans.Service.IncomeAPI.Controllers
 {
     [Route("api/income")]
     [ApiController]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class IncomeAPIController : ControllerBase
     {
 
@@ -22,16 +22,15 @@ namespace Assistans.Service.IncomeAPI.Controllers
         private  ResponseDto _responseDto;
         private  IMapper _mapper;
 
-        public IncomeAPIController(AppDbContext db, ResponseDto responseDto, IMapper mapper)
+        public IncomeAPIController(AppDbContext db, IMapper mapper)
         {
             _db = db;
-            _responseDto = responseDto;
-            _mapper = mapper;
+			_responseDto = new ResponseDto();
+			_mapper = mapper;
             
         }
 
         [HttpGet]
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ResponseDto Get()
         {
 
@@ -148,5 +147,26 @@ namespace Assistans.Service.IncomeAPI.Controllers
             }
             return _responseDto;
         }
+
+        [Route("count")]
+        [HttpGet]
+        public ResponseDto GetCount()
+        {
+			var userid = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            try
+            {
+                IEnumerable<Income> list = _db.incomes.Where(u => u.UserId == userid).ToList();
+
+                int sum = list.Sum(x => x.Count);
+
+                _responseDto.Result = sum;
+            }
+            catch (Exception ex)
+            {
+                _responseDto.IsSuccess = false;
+                _responseDto.Message = ex.Message;
+            }
+            return _responseDto;
+		}
     }
 }

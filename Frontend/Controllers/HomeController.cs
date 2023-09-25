@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 
 namespace Frontend.Controllers
 {
-    //[Authorize]
     public class HomeController : Controller
     {
         private readonly ICategoryService _categoryService;
@@ -28,7 +27,7 @@ namespace Frontend.Controllers
                 return View(listCategories);
             }
             
-			return RedirectToAction("Login");
+			return RedirectToAction("Login", "Auth"); // add redirect to Login
         }
     }
 }

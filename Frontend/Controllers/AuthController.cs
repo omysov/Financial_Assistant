@@ -1,6 +1,7 @@
 ﻿using Frontend.Models;
 using Frontend.Models.Dto;
 using Frontend.Services.IService;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -43,5 +44,33 @@ namespace Frontend.Controllers
                 return View(obj);
             }
         }
-    }
+
+		public IActionResult Register()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Register(RegistrationRequestDto obj)
+		{
+			ResponseDto responseDto = await _authService.RegisterAsync(obj);
+
+			if (responseDto != null && responseDto.IsSuccess)
+			{
+				return RedirectToAction("Login", "Auth");
+			}
+			else
+			{
+				ModelState.AddModelError("Customer Error", responseDto.Message);
+				return View(obj);
+			}
+		}
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            _tokenProvider.ClearToken();
+            return RedirectToAction("Index", "Home");
+        }
+	}
 }

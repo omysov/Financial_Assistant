@@ -15,6 +15,9 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient<IAuthService, AuthService>();
+builder.Services.AddHttpClient<IExpensesService, ExpensesService>();
+builder.Services.AddHttpClient<IIncomeService, IncomeService>();
+builder.Services.AddHttpClient<ICategoryService, CategoryService>();
 
 //session
 builder.Services.AddSession();
@@ -24,6 +27,7 @@ builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IExpensesService, ExpensesService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IIncomeService, IncomeService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(option =>

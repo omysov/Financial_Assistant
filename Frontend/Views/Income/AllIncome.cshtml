@@ -1,0 +1,33 @@
+﻿@model IEnumerable<IncomeDto>
+
+<div class="container">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Data Expension</th>
+				<th scope="col">Count</th>
+				<th scope="col"></th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			@{
+				int i = 1;
+				@foreach (var item in Model)
+				{
+							<tr>
+								<td scope="row">@i</td>
+								<td>@item.Date</td>
+								<td>@item.Count</td>
+									<td><a class="btn btn-danger" asp-controller="Income" asp-action="DeleteIncome" asp-route-income_id="@item.IncomeId" role="button">Delete</a></td>
+									<td><a class="btn btn-success" asp-controller="Income" asp-action="UpdateIncome" asp-route-income_id="@item.IncomeId" role="button">Update</a></td>
+							</tr>
+					i++;
+				}
+			}
+	<tr>
+  </tbody>
+</table>
+	<a class="btn btn-primary" asp-controller="Income" asp-action="CreateIncome" role="button">Add Income</a>
+</div>

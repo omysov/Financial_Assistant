@@ -9,6 +9,6 @@ namespace Assistans.Service.IncomeAPI.Models
         public string? UserId { get; set; }
         public DateOnly Date { get; set; }
         public int Count { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
     }
 }
